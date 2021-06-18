@@ -7,5 +7,5 @@ schema.edgeLabel('likes').
     from('person').to('person').
     // this is if partitioning by the source person's (ie, the non-supernode's) uuid
     // partitionBy(OUT, 'uuid', 'source_uuid')
-    partitionBy('partition_key', Text).
+    partitionBy('custom_partition_key', Text).
     create()

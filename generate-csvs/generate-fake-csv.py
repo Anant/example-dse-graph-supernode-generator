@@ -29,7 +29,7 @@ class Generator():
     # NOTE order matters, due to how are writing to CSV
     vertices_headers = ["uuid", "partition_key", "name", "info"]
     # partition_key will only be used for 6.8, for 6.7 can't partition on edges, so not used, it's just ignored
-    edges_headers = ["source_uuid", "target_uuid", "partition_key"]
+    edges_headers = ["out_uuid", "in_uuid", "out_partition_key", "in_partition_key","custom_partition_key"]
 
     def __init__(self, partition_count, supernodes_per_partition_count, adj_v_per_supernode):
         self.partition_count = partition_count
@@ -96,7 +96,9 @@ class Generator():
                     # source then target
                     # e.g., Fan123 likes JustinBieber (the supernode)
                     # for now, assuming only 6.7, so no edge partition key setting is allowed. But setting the value so can use same csv file for 6.8. For now, setting to just supernode's partition_key. Then we can run some etl to move edges to different partition for different tests
-                    e_data_to_write = (connected_v["uuid"], supernode["uuid"], supernode["partition_key"])
+                    # if we do use custom_partition_key, just add the non-supernode's partition key
+                    custom_partition_key = connected_v["partition_key"]
+                    e_data_to_write = (connected_v["uuid"], supernode["uuid"], connected_v["partition_key"], supernode["partition_key"], custom_partition_key)
                     eWriter.writerow(e_data_to_write)
 
                 vertices_finished = vertices_finished + self.adj_v_per_supernode

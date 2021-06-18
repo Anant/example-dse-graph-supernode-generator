@@ -11,8 +11,9 @@ dse gremlin-console $ip_addr -e $SCRIPT_DIR/create-graph.groovy && \
 
 # create schema
 # First v label, then e label
-# for now, just always use custom partition key for edges. That way can either specify it's on the supernode or specify that it's not, easier for testing
+# for now, just not using custom partition key
 dse gremlin-console $ip_addr \
     -e $SCRIPT_DIR/setup-remote.groovy \
     -e $SCRIPT_DIR/create-schema.6.8.vertexLabel.groovy \
-    -e $SCRIPT_DIR/create-schema.6.8.edge.with-custom-partitions.groovy
+    -e $SCRIPT_DIR/create-schema.6.8.edge.no-custom-partitions.groovy
+    #-e $SCRIPT_DIR/create-schema.6.8.edge.with-custom-partitions.groovy

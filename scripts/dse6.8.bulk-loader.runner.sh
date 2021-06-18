@@ -19,11 +19,12 @@ dsbulk load -h "$ip_addr" \
     -delim '|' \
     --schema.allowMissingFields false && \
 
+    #--schema.mapping 'out_uuid=out_uuid, in_uuid=in_uuid, out_partition_key=out_partition_key, in_partition_key=in_partition_key, custom_partition_key=custom_partition_key' \
 dsbulk load -h "$ip_addr" \
     -g demo_who_likes_whom \
     -e likes \
     -url $data_dir/edges.csv \
-    --schema.mapping 'source_uuid=out_partition_key, target_uuid=in_partition_key, partition_key=partition_key' \
+    --schema.mapping 'out_uuid=out_uuid, in_uuid=in_uuid, out_partition_key=out_partition_key, in_partition_key=in_partition_key' \
     --schema.from 'person' \
     --schema.to 'person' \
     -delim '|' \
