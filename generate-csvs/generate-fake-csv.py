@@ -176,7 +176,7 @@ class Generator():
         print("total vertices count:", self.total_v_count)
         print("total edges count:", self.total_e_count)
         print("== vertices file size:", self.convert_size(vertices_file_size))
-        print("== edges file size:", self.convert_size(vertices_file_size))
+        print("== edges file size:", self.convert_size(edges_file_size))
 
     def main(self):
         self.initialize_csv_files()
@@ -187,7 +187,6 @@ class Generator():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-            description='Collecting config varibales from environments.yaml and Start receiving stats',
             usage=' <partition_count> <supernodes_per_partition_count> <adjacent vertices per supernode>')
 
     parser.add_argument('partition_count', type=str, help='defaults to 2', default=2)

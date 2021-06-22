@@ -100,6 +100,11 @@ Same as for 6.7, but different shell script
     ./scripts/dse6.7.graphloader.runner.sh
     ```
 
+    Note that this can take a long time, but you can take the supernode ids from the generated file (e.g., `./tmp/data/2-partitions.2-sn-per-p.1000000-v-per-sn/supernodes_uuids.txt`) and start querying, since supernodes will probably be written first, being at the top of the `vertices.csv` file
+      * E.g., if one has uuid of `53eb72bd-7a7a-4ff3-b0de-451eab371b05`, can do:
+          ```
+          g.V().hasLabel("person").has("uuid", "53eb72bd-7a7a-4ff3-b0de-451eab371b05")
+          ```
 
 ## 3.2 For 6.8
 Implementation details:
@@ -110,6 +115,14 @@ Implementation details:
 ./scripts/dse6.8.bulk-loader.runner.sh ./tmp/data/2-partitions.2-sn-per-p.10-v-per-sn/ 192.168.0.190
 ```
 
+# 4 Generate Intermediary edges
+```
+python3 generate-csvs/generate-fake-csv.generate-intermediary-vertices.py <path to data dir> <max incoming edges for intermediary vertex>
+```
+e.g., 
+```
+python3 generate-csvs/generate-fake-csv.generate-intermediary-vertices.py ./tmp/data/2-partitions.2-sn-per-p.10-v-per-sn/ 3
+```
 
 # Development
 ## Helpful tricks
