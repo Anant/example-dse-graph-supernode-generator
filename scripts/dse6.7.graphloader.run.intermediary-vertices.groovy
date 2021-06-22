@@ -4,9 +4,10 @@ inputfiledir = '/home/ryan/projects/dse-graph-supernode-benchmarking/tmp/data/2-
 // inputfiledir = '/home/ryan/projects/dse-graph-supernode-benchmarking/tmp/data/1-partitions.1-sn-per-p.2-v-per-sn/'
 
 personInput = File.csv(inputfiledir + 'intermediary-vertices.csv').delimiter('|')
-likesInput = File.csv(inputfiledir + 'intermediary-vertices.edges.csv').delimiter('|')
+likesInput = File.csv(inputfiledir + 'intermediary-edges.csv').delimiter('|')
 
-config preparation: true, create_schema: false, load_new: true//, load_vertex_threads: 4
+// definitely NOT loading new, this already has some vertices created
+config preparation: true, create_schema: false, load_new: false//, load_vertex_threads: 4
 
 
 load(personInput).asVertices {
