@@ -115,7 +115,9 @@ Implementation details:
 ./scripts/dse6.8.bulk-loader.runner.sh ./tmp/data/2-partitions.2-sn-per-p.10-v-per-sn/ 192.168.0.190
 ```
 
-# 4 Generate Intermediary edges
+# 4) Generate Intermediary vertices
+## 4.1) Generate CSV
+This is for 6.7 only, to see how this solution works
 ```
 python3 generate-csvs/generate-fake-csv.generate-intermediary-vertices.py <path to data dir> <max incoming edges for intermediary vertex>
 ```
@@ -124,8 +126,28 @@ e.g.,
 python3 generate-csvs/generate-fake-csv.generate-intermediary-vertices.py ./tmp/data/2-partitions.2-sn-per-p.10-v-per-sn/ 3
 ```
 
+## 4.2) Load intermediary vertices into db
+
+- If there's edges already, make sure to drop all existing edges. Vertices are fine
+    ```
+    # NOTE will change your gc_grace_seconds for person_p, but that should be fine since this is a single node cluster
+    ./scripts/drop-edges.6.7.sh true
+    ```
+
+
+
 # Development
-## Helpful tricks
+## Helpful tricks/Scripts
+### Run gremlin queries in gremlin console
+    ```
+    docker exec -it dse-graph-supernode-benchmarking_dse_1 dse gremlin-console
+    :remote config alias g demo_who_likes_whom.g
+    ```
+Then you should be good to go, e.g.,
+```
+g.V().limit(10)
+```
+
 ### Drop graph and create schema again
 - in Gremlin console: 
 
