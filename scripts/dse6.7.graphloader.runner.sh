@@ -1,25 +1,12 @@
 # for 6.7 graph loader
-inputfiledir = '/home/ryan/projects/dse-graph-supernode-benchmarking/tmp/data'
-personInput = File.csv(inputfiledir + 'vertices.csv').delimiter('|')
-likesInput = File.csv(inputfiledir + 'edges.csv').delimiter('|')
 
-load(personInput).asVertices {
-    label "person"
-    key "uuid"
-}
+# set first arg as true to do dryrun
+dryrun=${1:-false}
 
-load(likesInput).asEdges {
-    label "likes"
-    outV "source_uuid", {
-        label "person"
-        key "uuid"
-    }
-    inV "target_uuid", {
-        label "person"
-        key "uuid"
-    }
-}
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+# you can change to wherever your dsegl was downloaded to 
+DSEGL_BIN=~/libs/dse-graph-loader-6.7.8/
 
 # dry run
-graphloader authorBookMappingCSV.groovy -graph testCSV -address localhost -dryrun true
+$DSEGL_BIN/graphloader $SCRIPT_DIR/dse6.7.graphloader.run.groovy -graph demo_who_likes_whom -address localhost -dryrun $dryrun

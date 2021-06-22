@@ -22,6 +22,10 @@ pip3 install -r requirements
 ```
 
 ### 0.2) Install GraphLoader (for 6.7)
+      ```
+      curl -OL https://downloads.datastax.com/enterprise/dse-graph-loader-6.7.tar.gz
+      tar -xzvf dse-graph-loader-6.7.tar.gz
+      ```
 TODO
 
 ### 0.3) DSbulk (for 6.8)
@@ -55,11 +59,15 @@ This will generate 2 partitions, 4 total supernodes (each with 1,000,000 adjacen
 ## 2) Create the graph and Schema 
 ### 2.1) for 6.7
 ```
-./scripts/create-graph-and-schema.sh
+./scripts/create-graph-and-schema.6.7.sh
 ```
-- can optionally pass in ip of dse node, e.g., 
+- can optionally pass in ip of dse node, and specify if executing against provided docker-compose file e.g., if not running with docker, and if specifying ip:
 ```
-./scripts/create-graph-and-schema.sh 123.456.789.123
+./scripts/create-graph-and-schema.6.7.sh false 123.456.789.123
+```
+or if you are using docker:
+```
+./scripts/create-graph-and-schema.6.7.sh true
 ```
 
 
@@ -72,7 +80,7 @@ dse gremlin-console
 ### 2.2) for 6.8
 Same as for 6.7, but different shell script
 ```
-./scripts/create-graph-and-schema.6.8.sh
+./scripts/create-graph-and-schema.6.8.sh 
 ```
 
 
@@ -80,6 +88,20 @@ Same as for 6.7, but different shell script
 
 ## 3) Load the data
 
+## 3.1 For 6.7
+- Dry run
+
+    ```
+    ./scripts/dse6.7.graphloader.runner.sh true
+    ```
+
+- When ready, execute
+    ```
+    ./scripts/dse6.7.graphloader.runner.sh
+    ```
+
+
+## 3.2 For 6.8
 Implementation details:
 - currently does not clear out previously loaded data. 
 
@@ -89,8 +111,29 @@ Implementation details:
 ```
 
 
+# Development
+## Helpful tricks
+### Drop graph and create schema again
+- in Gremlin console: 
+
+    ```
+    docker exec -it dse-graph-supernode-benchmarking_dse_1 dse gremlin-console
+    system.graph('demo_who_likes_whom').drop()
+    ```
+- Then in host Bash, build again:
+    ```
+    # for 6.7
+    ./scripts/create-graph-and-schema.6.7.sh true
+    ```
 
 # Debugging
+## Errors running DSE graph loader
+- Try making a smaller sample set, then changing the target csv file when executing
+    ```
+    python3 ./generate-csvs/generate-fake-csv.py 1 1 2
+    vim ./scripts/dse6.7.graphloader.run.groovy
+    # and then change the target csv to inputfiledir = '/home/ryan/projects/dse-graph-supernode-benchmarking/tmp/data/1-partitions.1-sn-per-p.2-v-per-sn/'
+    ```
 ## Errors running dsbulk
 ### ERROR Operation LOAD_20210618-093931-387708 failed: Vertex label person does not exist.
 Make sure to run scripts to create the graph and schema for dse graph first, using hte gremlin console
