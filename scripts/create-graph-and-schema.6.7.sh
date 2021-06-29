@@ -15,7 +15,7 @@ if [ "$use_docker" = true ] ; then
     # copy the groovy scripts over
     docker cp $SCRIPT_DIR/create-graph.groovy $DSE_DOCKER_CONTAINER_NAME:$DSE_DOCKER_SCRIPT_DIR
     docker cp $SCRIPT_DIR/create-schema.6.7.groovy $DSE_DOCKER_CONTAINER_NAME:$DSE_DOCKER_SCRIPT_DIR
-    docker cp $SCRIPT_DIR/setup-remote.groovy $DSE_DOCKER_CONTAINER_NAME:$DSE_DOCKER_SCRIPT_DIR
+    docker cp $SCRIPT_DIR/setup-remote.6.7.groovy $DSE_DOCKER_CONTAINER_NAME:$DSE_DOCKER_SCRIPT_DIR
     dse_cmd="docker exec -it $DSE_DOCKER_CONTAINER_NAME dse"
 
     # point to dir in dse docker container
@@ -27,4 +27,4 @@ echo "running console on ip ${ip_addr}"
 $dse_cmd gremlin-console $ip_addr -e $SCRIPT_DIR/create-graph.groovy && \
 
 # create schema
-$dse_cmd gremlin-console $ip_addr -e $SCRIPT_DIR/setup-remote.groovy -e $SCRIPT_DIR/create-schema.6.7.groovy
+$dse_cmd gremlin-console $ip_addr -e $SCRIPT_DIR/setup-remote.6.7.groovy -e $SCRIPT_DIR/create-schema.6.7.groovy

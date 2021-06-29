@@ -1,4 +1,5 @@
 # for 6.7 graph loader
+# target dir is set in the file `./dse6.7.graphloader.run.groovy` under var `inputfiledir`, change it there to specify different data files 
 
 # set first arg as true to do dryrun
 dryrun=${1:-false}

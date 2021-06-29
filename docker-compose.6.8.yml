@@ -1,0 +1,33 @@
+version: "3"
+services:
+  dse:
+    image: datastax/dse-server:6.8.13
+    command: [-g] # Run with graph enabled
+##    command: [-s -k] # Run with Search and Analytics capabilities enabled
+    environment:
+      DS_LICENSE: accept # Accept licence on start
+      JVM_EXTRA_OPTS: -Xms2g -Xmx2g
+    cap_add:
+      - IPC_LOCK # Allow DSE to lock memory with mlock
+    ulimits:
+      memlock: -1 # Lock memory
+###    volumes:
+###      - ./data/cassandra:/var/lib/cassandra
+###      - ./data/spark:/var/lib/spark
+###      - ./data/dsefs:/var/lib/dsefs
+###      - ./data/cassandra:/var/log/cassandra
+###      - ./data/spark:/var/log/spark
+    ports:
+      - "4040:4040"
+      - "7080:7080"
+      - "7081:7081"
+      - "8983:8983"
+        # required for dse studio to run gremlin
+        # https://community.datastax.com/questions/4020/having-problems-with-the-dse-gremlin-api.html
+      - "8182:8182"
+      - "9042:9042"
+      - "9077:9077"
+      - "10000:10000"
+    container_name: dse-graph-supernode-benchmarking_dse_6_8
+
+

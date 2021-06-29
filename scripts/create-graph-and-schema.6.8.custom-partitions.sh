@@ -15,5 +15,5 @@ dse gremlin-console $ip_addr -e $SCRIPT_DIR/create-graph.groovy && \
 dse gremlin-console $ip_addr \
     -e $SCRIPT_DIR/setup-remote.groovy \
     -e $SCRIPT_DIR/create-schema.6.8.vertexLabel.groovy \
-    -e $SCRIPT_DIR/create-schema.6.8.edge.no-custom-partitions.groovy
-    #-e $SCRIPT_DIR/create-schema.6.8.edge.with-custom-partitions.groovy
+    -e $SCRIPT_DIR/create-schema.6.8.edge.with-custom-partitions.groovy
+    #-e $SCRIPT_DIR/create-schema.6.8.edge.no-custom-partitions.groovy

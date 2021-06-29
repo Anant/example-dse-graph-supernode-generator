@@ -23,13 +23,13 @@ dsbulk load -h "$ip_addr" \
     -delim '|' \
     --schema.allowMissingFields false && \
 
-    #--schema.mapping 'out_uuid=out_uuid, in_uuid=in_uuid, out_partition_key=out_partition_key, in_partition_key=in_partition_key, custom_partition_key=custom_partition_key' \
+    # basically, everything is the same in this entire script as the non-flipped version, but this one makes the out_uuid the in instead
 dsbulk load -h "$ip_addr" \
     -dryRun $dryrun \
     -g demo_who_likes_whom \
     -e likes \
     -url $data_dir/edges.csv \
-    --schema.mapping 'out_uuid=out_uuid, in_uuid=in_uuid' \
+    --schema.mapping 'out_uuid=in_uuid, in_uuid=out_uuid' \
     --schema.from 'person' \
     --schema.to 'person' \
     -delim '|' \
