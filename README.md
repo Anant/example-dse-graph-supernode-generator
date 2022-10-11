@@ -2,6 +2,8 @@
 
 Creates a demo graph in DSE Graph (`demo_who_likes_whom`), generates some csv files, then loads that data. 
 
+See also three part blog series: https://anant.us/blog/partitioning-in-dse-graph/
+
 ## Use cases
 - Benchmarking
 - Performance testing
